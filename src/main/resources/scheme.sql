@@ -1,0 +1,2 @@
+insert into users (id, user_name, active_admin, guild, user_level, coins, defeat, victories, description) values (808, 'Тестовый', 'Вот это да', 'Тестировщики', 20, 200, 3, 10, 'Крутой поц');
+insert into users (id, user_name, active_admin, guild, user_level, coins, defeat, victories, description) values (909, 'Тестовый', 'Воу', 'Мрак', 12, 222, 5, 5, 'Крутой поц');
