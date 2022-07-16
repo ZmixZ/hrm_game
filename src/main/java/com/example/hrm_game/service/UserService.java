@@ -2,8 +2,10 @@ package com.example.hrm_game.service;
 
 import com.example.hrm_game.data.dto.AccountDto;
 import com.example.hrm_game.data.dto.UserDto;
+import com.example.hrm_game.data.entity.AchievementEntity;
 import com.example.hrm_game.data.entity.LevelEntity;
 import com.example.hrm_game.data.entity.UserEntity;
+import com.example.hrm_game.repository.AchievementRepository;
 import com.example.hrm_game.repository.LevelRepository;
 import com.example.hrm_game.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private LevelRepository levelRepository;
+    @Autowired
+    private AchievementRepository achievementRepository;
     public void insertAllUser(List<UserDto> users) {
         users.forEach(
                 user -> {
@@ -27,6 +31,7 @@ public class UserService {
                         // и стоит ли их при проливке апдейтить или только добавлять новых, как сейчас?
                         UserEntity userById = userRepository.findUserEntityById(user.getId());
                         if (userById == null) {
+                            List<AchievementEntity> achievementEntity = achievementRepository.findAll();
                             //Создаем юзера, если он отсутствует в БД приложения
                             UserEntity userEntity = new UserEntity();
                             userEntity.setId(user.getId());
@@ -39,6 +44,7 @@ public class UserService {
                             userEntity.setCity(user.getCity());
                             userEntity.setPhoto(user.getPhoto());
                             userEntity.setGender(user.getGender());
+                            userEntity.setAchievementEntity(achievementEntity);
 
                             LevelEntity level = new LevelEntity();
                             level.setLevel(1);
@@ -66,6 +72,7 @@ public class UserService {
             if (userById == null) {
                 //Создаем юзера, если он отсутствует в БД приложения
                 UserEntity userEntity = new UserEntity();
+                List<AchievementEntity> achievementEntity = achievementRepository.findAll();
                 userEntity.setId(user.getId());
                 userEntity.setName(user.getName());
                 userEntity.setDefeat(0);
@@ -76,6 +83,7 @@ public class UserService {
                 userEntity.setCity(user.getCity());
                 userEntity.setPhoto(user.getPhoto());
                 userEntity.setGender(user.getGender());
+                userEntity.setAchievementEntity(achievementEntity);
 
                 LevelEntity level = new LevelEntity();
                 level.setLevel(1);

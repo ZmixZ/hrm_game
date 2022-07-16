@@ -89,11 +89,11 @@ public class AccountsRestController {
         accountsService.updateUserData(account);
     }
 
-    @PostConstruct
-    @SneakyThrows
-    public void initAllAccountsBeforeStartServer() {
-        startInitDataBase();
-    }
+//    @PostConstruct
+//    @SneakyThrows
+//    public void initAllAccountsBeforeStartServer() {
+//        startInitDataBase();
+//    }
 
     @Scheduled(cron = "0 0 0 * * *")
     @SneakyThrows

@@ -1,5 +1,6 @@
 package com.example.hrm_game.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "achievement")
@@ -21,7 +23,12 @@ public class AchievementEntity {
     private String description;
     private LocalDate localDate;
     private String image;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "users_achive", referencedColumnName = "id")
-    private UserEntity userAchive;
+    private Integer total;
+    private Integer progress;
+    private Boolean isAdded;
+    @ManyToMany(mappedBy = "achievementEntity")
+    private List<UserEntity> userAchive;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quest_achievement", referencedColumnName = "id")
+    private QuestEntity quest;
 }

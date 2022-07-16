@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AchievementDto {
+    private Long id;
     private String description;
-    private String image;
+    private Integer progress;
 }

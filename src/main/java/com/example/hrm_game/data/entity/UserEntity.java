@@ -1,15 +1,12 @@
 package com.example.hrm_game.data.entity;
 
-import com.example.hrm_game.data.dto.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlElements;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,6 @@ public class UserEntity {
     @Id
     private Long id;
     private String name;
-    @Column(name = "active_admin")
     private String guild;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_level", referencedColumnName = "id")
@@ -31,7 +27,11 @@ public class UserEntity {
     private Integer coins;
     private Integer defeat;
     private Integer victories;
-    @OneToMany(mappedBy = "userAchive", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_achives",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_quests_id")
+    )
     private List<AchievementEntity> achievementEntity;
     private String description;
     private String photo;
@@ -46,6 +46,7 @@ public class UserEntity {
     @Column(name = "current_city")
     private String currentCity;
 
+    //Мб по выпил
     @JsonProperty("employee_positions")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeePositionEntity> employeePosition;
@@ -53,12 +54,14 @@ public class UserEntity {
     @JsonProperty("employee_position_grades")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeePositionGradesEntity> guildPosition;
+    ///////
 
     @JsonProperty("employee_projects")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_projects", referencedColumnName = "id")
     private EmployeeProjectsEntity guildProjects;
 
+    //Мб по выпил
     @JsonProperty("qualification_skill_types")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "qualification_skill_types", referencedColumnName = "id")
@@ -67,6 +70,7 @@ public class UserEntity {
     @JsonProperty("key_skill_types")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KeySkillTypesEntity> userSkills;
+    ///////
 
     private String gender;
     private String birth;
@@ -90,6 +94,5 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "user_quests_id")
     )
-    //TODO: протестить добавление
     private List<QuestEntity> quests = new ArrayList<>();
 }
