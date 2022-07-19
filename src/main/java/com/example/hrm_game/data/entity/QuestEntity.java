@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,11 +18,16 @@ public class QuestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
     private String description;
     private Integer experience;
     private Integer coins;
     private String image;
-    private Integer progress;
-    @ManyToMany(mappedBy = "quests")
-    private List<UserEntity> users = new ArrayList<>();
+    @OneToOne(mappedBy = "quest")
+    private AchievementEntity achievement;
+    //    @ManyToMany(mappedBy = "quests", cascade = CascadeType.ALL)
+//    private List<UserEntity> users = new ArrayList<>();
+    @OneToMany(mappedBy = "quests")
+    private List<UsersQuestsEntity> userQuests;
+    //Добавить репутацию фракции
 }

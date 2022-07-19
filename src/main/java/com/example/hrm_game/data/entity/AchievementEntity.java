@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "achievement")
@@ -21,7 +22,14 @@ public class AchievementEntity {
     private String description;
     private LocalDate localDate;
     private String image;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "users_achive", referencedColumnName = "id")
-    private UserEntity userAchive;
+//    private Integer total;
+//    private Integer progress;
+//    private Boolean isAdded;
+//    @ManyToMany(mappedBy = "achievementEntity")
+//    private List<UserEntity> userAchive;
+    @OneToMany(mappedBy = "achievement")
+    private List<UsersAchievementEntity> usersAchievement;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quest_achievement", referencedColumnName = "id")
+    private QuestEntity quest;
 }
