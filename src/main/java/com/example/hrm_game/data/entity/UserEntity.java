@@ -1,6 +1,5 @@
 package com.example.hrm_game.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -27,12 +26,17 @@ public class UserEntity {
     private Integer coins;
     private Integer defeat;
     private Integer victories;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_achives",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_quests_id")
-    )
-    private List<AchievementEntity> achievementEntity;
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_achives",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_achive_id"
+//            )
+//    )
+//    private List<AchievementEntity> achievementEntity;
+    @OneToMany(mappedBy = "user")
+    private List<UsersAchievementEntity> usersAchievements;
+
     private String description;
     private String photo;
     @JsonProperty("current_positions")
@@ -89,10 +93,12 @@ public class UserEntity {
     @JsonProperty("is_active")
     @Column(name = "is_active")
     private Boolean isActive;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_quests",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_quests_id")
-    )
-    private List<QuestEntity> quests = new ArrayList<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_quests",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_quests_id")
+//    )
+//    private List<QuestEntity> quests = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<UsersQuestsEntity> questEntities;
 }

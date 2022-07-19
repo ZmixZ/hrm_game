@@ -1,6 +1,5 @@
 package com.example.hrm_game.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,13 @@ public class AchievementEntity {
     private String description;
     private LocalDate localDate;
     private String image;
-    private Integer total;
-    private Integer progress;
-    private Boolean isAdded;
-    @ManyToMany(mappedBy = "achievementEntity")
-    private List<UserEntity> userAchive;
+//    private Integer total;
+//    private Integer progress;
+//    private Boolean isAdded;
+//    @ManyToMany(mappedBy = "achievementEntity")
+//    private List<UserEntity> userAchive;
+    @OneToMany(mappedBy = "achievement")
+    private List<UsersAchievementEntity> usersAchievement;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "quest_achievement", referencedColumnName = "id")
     private QuestEntity quest;

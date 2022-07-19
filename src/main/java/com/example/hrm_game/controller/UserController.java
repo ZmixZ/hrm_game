@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,11 +41,11 @@ public class UserController {
         return ResponseEntity.ok(accountsService.getUserFromId(userId));
     }
 
-//    @PostConstruct
-//    @SneakyThrows
-//    public void initAllAccountsBeforeStartServer() {
-//        startInitDataBase();
-//    }
+    @PostConstruct
+    @SneakyThrows
+    public void initAllAccountsBeforeStartServer() {
+        startInitDataBase();
+    }
 
     @Scheduled(cron = "0 0 0 * * *")
     @SneakyThrows
@@ -53,18 +54,19 @@ public class UserController {
     }
 
     private void startInitDataBase() throws JsonProcessingException {
-        String uri = "http://178.154.246.238:58082/api/employees/";
-        RestTemplate template = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.set("Authorization", TOKEN);
-
-        HttpEntity<String> entity = new HttpEntity<>("body", headers);
-
-        ResponseEntity<String> exchange = template.exchange(uri, HttpMethod.GET, entity, String.class);
-        JacksonUtils.enhancedObjectMapper();
-        List<UserDto> users = JacksonParser.getObjectMapper().readValue(exchange.getBody(), new TypeReference<List<UserDto>>() {
-        });
+//        String uri = "http://178.154.246.238:58082/api/employees/";
+//        RestTemplate template = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+//        headers.set("Authorization", TOKEN);
+//
+//        HttpEntity<String> entity = new HttpEntity<>("body", headers);
+//
+//        ResponseEntity<String> exchange = template.exchange(uri, HttpMethod.GET, entity, String.class);
+//        JacksonUtils.enhancedObjectMapper();
+//        List<UserDto> users = JacksonParser.getObjectMapper().readValue(exchange.getBody(), new TypeReference<List<UserDto>>() {
+//        });
+        List<UserDto> users = new ArrayList<>();
         accountsService.insertAllUser(users);
     }
 }
